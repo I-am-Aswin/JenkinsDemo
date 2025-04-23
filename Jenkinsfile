@@ -2,26 +2,35 @@ pipeline {
     agent any
 
     stages {
-        stage( "compile ") {
+        stage("compile") {
             steps {
+                echo "Compiling the Application for errors"
                 sh "mvn compile"
             }
         }
 
-        stage ("test") {
+        stage("test") {
             steps{
+                echo "Running Test Scripts of the Application"
                 sh "mvn test"
             }
         }
 
         stage( "build" ) {
             steps {
+                echo "Building and Bundling the Application"
                 sh "mvn clean package"
             }
         }
     }
 
     post {
-        copy(file:"target/JenkinsDemo-0.0.1-SNAPSHOT.jar", tofile:"App.jar")
+        success {
+            echo "Package Built Successfully"
+            sh "cp target/JenkinsDemo-0.0.1-SNAPSHOT.jar app.jar"
+        }
+        failure {
+            echo "Error Building Application"
+        }
     }
 }
