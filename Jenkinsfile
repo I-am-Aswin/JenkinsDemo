@@ -3,15 +3,21 @@ pipeline {
 
     stages {
         stage( "compile ") {
-            sh "mvn compile"
+            steps {
+                sh "mvn compile"
+            }
         }
 
         stage ("test") {
-            sh "mvn test"
+            steps{
+                sh "mvn test"
+            }
         }
 
         stage( "build" ) {
-            sh "mvn clean package"
+            steps {
+                sh "mvn clean package"
+            }
         }
     }
 
